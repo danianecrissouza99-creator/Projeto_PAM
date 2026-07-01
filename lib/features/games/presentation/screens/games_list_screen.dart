@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/games_providers.dart';
 import '../widgets/game_card.dart';
 import 'game_detail_screen.dart';
-
+import '../../../auth/presentation/providers/auth_providers.dart';
 
 class GamesListScreen extends ConsumerStatefulWidget {
   const GamesListScreen({super.key});
@@ -47,7 +47,17 @@ class _GamesListScreenState extends ConsumerState<GamesListScreen> {
     final gamesAsync = ref.watch(gamesListProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('GameVault')),
+      appBar: AppBar(
+        title: const Text('Games DCats'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            tooltip: 'Terminar sessão',
+            onPressed: () =>
+                ref.read(authControllerProvider.notifier).signOut(),
+          ),
+        ],
+      ),
       body: Column(
         children: [
           // Pesquisa
@@ -77,11 +87,16 @@ class _GamesListScreenState extends ConsumerState<GamesListScreen> {
                       border: OutlineInputBorder(),
                     ),
                     items: _orderings.entries
-                        .map((e) => DropdownMenuItem(
-                            value: e.value, child: Text(e.key)))
+                        .map(
+                          (e) => DropdownMenuItem(
+                            value: e.value,
+                            child: Text(e.key),
+                          ),
+                        )
                         .toList(),
-                    onChanged: (value) =>
-                        ref.read(gamesQueryProvider.notifier).setOrdering(value),
+                    onChanged: (value) => ref
+                        .read(gamesQueryProvider.notifier)
+                        .setOrdering(value),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -93,8 +108,12 @@ class _GamesListScreenState extends ConsumerState<GamesListScreen> {
                       border: OutlineInputBorder(),
                     ),
                     items: _genres.entries
-                        .map((e) => DropdownMenuItem(
-                            value: e.value, child: Text(e.key)))
+                        .map(
+                          (e) => DropdownMenuItem(
+                            value: e.value,
+                            child: Text(e.key),
+                          ),
+                        )
                         .toList(),
                     onChanged: (value) =>
                         ref.read(gamesQueryProvider.notifier).setGenres(value),
@@ -111,8 +130,10 @@ class _GamesListScreenState extends ConsumerState<GamesListScreen> {
               error: (error, stack) => Center(
                 child: Padding(
                   padding: const EdgeInsets.all(24),
-                  child: Text('Erro ao carregar jogos.\n$error',
-                      textAlign: TextAlign.center),
+                  child: Text(
+                    'Erro ao carregar jogos.\n$error',
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
               data: (games) {
@@ -121,20 +142,20 @@ class _GamesListScreenState extends ConsumerState<GamesListScreen> {
                 }
                 return ListView.builder(
                   itemCount: games.length,
-                  itemBuilder: (context, index) 
-                  {
-                      final game = games[index];
-                      return GameCard(
-                        game: game,
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => GameDetailScreen(gameId: game.id),
-                            ),
-                          );
-                        },
-                      );
-                },                );
+                  itemBuilder: (context, index) {
+                    final game = games[index];
+                    return GameCard(
+                      game: game,
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => GameDetailScreen(gameId: game.id),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                );
               },
             ),
           ),
