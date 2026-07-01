@@ -4,6 +4,7 @@ import '../providers/games_providers.dart';
 import '../widgets/game_card.dart';
 import 'game_detail_screen.dart';
 import '../../../auth/presentation/providers/auth_providers.dart';
+import '../../../favorites/presentation/screens/favorites_screen.dart';
 
 class GamesListScreen extends ConsumerStatefulWidget {
   const GamesListScreen({super.key});
@@ -15,7 +16,6 @@ class GamesListScreen extends ConsumerStatefulWidget {
 class _GamesListScreenState extends ConsumerState<GamesListScreen> {
   final _searchController = TextEditingController();
 
-  // Ordenação: texto mostrado -> valor que a RAWG entende
   static const _orderings = {
     'Relevância': null,
     'Melhor avaliados': '-rating',
@@ -23,7 +23,6 @@ class _GamesListScreenState extends ConsumerState<GamesListScreen> {
     'Nome (A-Z)': 'name',
   };
 
-  // Género (filtro): texto mostrado -> slug da RAWG
   static const _genres = {
     'Todos': null,
     'Ação': 'action',
@@ -51,6 +50,13 @@ class _GamesListScreenState extends ConsumerState<GamesListScreen> {
         title: const Text('Games DCats'),
         actions: [
           IconButton(
+            icon: const Icon(Icons.favorite),
+            tooltip: 'Favoritos',
+            onPressed: () => Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (_) => const FavoritesScreen())),
+          ),
+          IconButton(
             icon: const Icon(Icons.logout),
             tooltip: 'Terminar sessão',
             onPressed: () =>
@@ -60,7 +66,6 @@ class _GamesListScreenState extends ConsumerState<GamesListScreen> {
       ),
       body: Column(
         children: [
-          // Pesquisa
           Padding(
             padding: const EdgeInsets.all(12),
             child: TextField(
@@ -74,7 +79,6 @@ class _GamesListScreenState extends ConsumerState<GamesListScreen> {
                   ref.read(gamesQueryProvider.notifier).setSearch(value),
             ),
           ),
-          // Ordenação + Filtro
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: Row(
@@ -123,7 +127,6 @@ class _GamesListScreenState extends ConsumerState<GamesListScreen> {
             ),
           ),
           const SizedBox(height: 8),
-          // Resultados
           Expanded(
             child: gamesAsync.when(
               loading: () => const Center(child: CircularProgressIndicator()),
@@ -146,13 +149,11 @@ class _GamesListScreenState extends ConsumerState<GamesListScreen> {
                     final game = games[index];
                     return GameCard(
                       game: game,
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => GameDetailScreen(gameId: game.id),
-                          ),
-                        );
-                      },
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => GameDetailScreen(gameId: game.id),
+                        ),
+                      ),
                     );
                   },
                 );
