@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/games_providers.dart';
 import '../widgets/game_card.dart';
+import 'game_detail_screen.dart';
+
 
 class GamesListScreen extends ConsumerStatefulWidget {
   const GamesListScreen({super.key});
@@ -119,8 +121,20 @@ class _GamesListScreenState extends ConsumerState<GamesListScreen> {
                 }
                 return ListView.builder(
                   itemCount: games.length,
-                  itemBuilder: (context, index) => GameCard(game: games[index]),
-                );
+                  itemBuilder: (context, index) 
+                  {
+                      final game = games[index];
+                      return GameCard(
+                        game: game,
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (_) => GameDetailScreen(gameId: game.id),
+                            ),
+                          );
+                        },
+                      );
+                },                );
               },
             ),
           ),

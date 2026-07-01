@@ -68,3 +68,11 @@ final gamesListProvider = FutureProvider.autoDispose<List<Game>>((ref) async {
     ),
   );
 });
+
+// ============ Detalhe de um jogo (pelo id) ============
+
+final gameDetailsProvider =
+    FutureProvider.autoDispose.family<Game, int>((ref, id) async {
+  final getGameDetails = ref.watch(getGameDetailsProvider);
+  return getGameDetails(id);
+});
