@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../favorites/domain/entities/favorite_game.dart';
+import '../../../favorites/presentation/providers/favorites_providers.dart';
 import '../providers/games_providers.dart';
 
 class GameDetailScreen extends ConsumerWidget {
@@ -9,16 +11,53 @@ class GameDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final gameAsync = ref.watch(gameDetailsProvider(gameId));
+    final favorites = ref.watch(favoritesStreamProvider).value ?? const [];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Detalhe')),
+      appBar: AppBar(
+        title: const Text('Detalhe'),
+        actions: [
+          gameAsync.maybeWhen(
+            data: (game) {
+              final isFav = favorites.any((f) => f.id == game.id);
+              return IconButton(
+                icon: Icon(
+                  isFav ? Icons.favorite : Icons.favorite_border,
+                  color: isFav ? Colors.red : null,
+                ),
+                tooltip: isFav
+                    ? 'Remover dos favoritos'
+                    : 'Adicionar aos favoritos',
+                onPressed: () {
+                  final controller = ref.read(favoritesControllerProvider);
+                  if (isFav) {
+                    controller.remove(game.id);
+                  } else {
+                    controller.add(
+                      FavoriteGame(
+                        id: game.id,
+                        name: game.name,
+                        backgroundImage: game.backgroundImage,
+                        rating: game.rating,
+                      ),
+                    );
+                  }
+                },
+              );
+            },
+            orElse: () => const SizedBox.shrink(),
+          ),
+        ],
+      ),
       body: gameAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stack) => Center(
           child: Padding(
             padding: const EdgeInsets.all(24),
-            child: Text('Erro ao carregar o jogo.\n$error',
-                textAlign: TextAlign.center),
+            child: Text(
+              'Erro ao carregar o jogo.\n$error',
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
         data: (game) => ListView(
@@ -39,8 +78,10 @@ class GameDetailScreen extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(game.name,
-                      style: Theme.of(context).textTheme.headlineSmall),
+                  Text(
+                    game.name,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
                   const SizedBox(height: 8),
                   Row(
                     children: [
@@ -56,8 +97,9 @@ class GameDetailScreen extends ConsumerWidget {
                   if (game.genres.isNotEmpty)
                     Wrap(
                       spacing: 8,
-                      children:
-                          game.genres.map((g) => Chip(label: Text(g))).toList(),
+                      children: game.genres
+                          .map((g) => Chip(label: Text(g)))
+                          .toList(),
                     ),
                 ],
               ),
