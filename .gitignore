@@ -50,3 +50,6 @@ app.*.map.json
 **/generated_plugins.cmake
 **/GeneratedPluginRegistrant.swift
 **/GeneratedPluginRegistrant.java
+
+# Chave da API RAWG (cada elemento cria a sua localmente, não versionar)
+lib/core/constants/api_keys.dart
