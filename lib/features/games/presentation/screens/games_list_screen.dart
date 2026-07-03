@@ -143,7 +143,14 @@ class _GamesListScreenState extends ConsumerState<GamesListScreen> {
                 if (games.isEmpty) {
                   return const Center(child: Text('Nenhum jogo encontrado.'));
                 }
-                return ListView.builder(
+                return GridView.builder(
+                  padding: const EdgeInsets.all(10),
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 220,
+                    mainAxisSpacing: 12,
+                    crossAxisSpacing: 12,
+                    childAspectRatio: 0.78,
+                  ),
                   itemCount: games.length,
                   itemBuilder: (context, index) {
                     final game = games[index];
