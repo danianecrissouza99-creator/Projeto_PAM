@@ -4,8 +4,6 @@ import '../../domain/entities/game.dart';
 import '../../domain/repositories/games_repository.dart';
 import '../datasources/games_remote_data_source.dart';
 
-/// Implementação do contrato GamesRepository (camada de dados).
-/// Usa o datasource para obter os dados e converte exceções em falhas.
 class GamesRepositoryImpl implements GamesRepository {
   final GamesRemoteDataSource remoteDataSource;
   GamesRepositoryImpl(this.remoteDataSource);
@@ -33,6 +31,15 @@ class GamesRepositoryImpl implements GamesRepository {
   Future<Game> getGameDetails(int id) async {
     try {
       return await remoteDataSource.getGameDetails(id);
+    } on ServerException catch (e) {
+      throw ServerFailure(e.message);
+    }
+  }
+
+  @override
+  Future<List<String>> getScreenshots(int id) async {
+    try {
+      return await remoteDataSource.getScreenshots(id);
     } on ServerException catch (e) {
       throw ServerFailure(e.message);
     }

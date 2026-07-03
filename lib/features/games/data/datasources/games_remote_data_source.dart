@@ -3,7 +3,6 @@ import '../../../../core/constants/api_constants.dart';
 import '../../../../core/error/exceptions.dart';
 import '../models/game_model.dart';
 
-/// Contrato do datasource (camada de dados): vai buscar jogos à RAWG.
 abstract class GamesRemoteDataSource {
   Future<List<GameModel>> getGames({
     String? search,
@@ -11,11 +10,10 @@ abstract class GamesRemoteDataSource {
     String? genres,
     int page = 1,
   });
-
   Future<GameModel> getGameDetails(int id);
+  Future<List<String>> getScreenshots(int id);
 }
 
-/// Implementação que usa o Dio para falar com a API.
 class GamesRemoteDataSourceImpl implements GamesRemoteDataSource {
   final Dio dio;
   GamesRemoteDataSourceImpl(this.dio);
@@ -35,10 +33,9 @@ class GamesRemoteDataSourceImpl implements GamesRemoteDataSource {
           if (ordering != null) 'ordering': ordering,
           if (genres != null) 'genres': genres,
           'page': page,
-          'page_size': 20,
+          'page_size': 40,
         },
       );
-
       final results = response.data['results'] as List<dynamic>;
       return results
           .map((json) => GameModel.fromJson(json as Map<String, dynamic>))
@@ -53,6 +50,17 @@ class GamesRemoteDataSourceImpl implements GamesRemoteDataSource {
     try {
       final response = await dio.get('${ApiConstants.games}/$id');
       return GameModel.fromJson(response.data as Map<String, dynamic>);
+    } on DioException {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<List<String>> getScreenshots(int id) async {
+    try {
+      final response = await dio.get('${ApiConstants.games}/$id/screenshots');
+      final results = response.data['results'] as List<dynamic>;
+      return results.map((s) => s['image'] as String).toList();
     } on DioException {
       throw ServerException();
     }

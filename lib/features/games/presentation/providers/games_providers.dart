@@ -6,6 +6,7 @@ import '../../domain/usecases/get_games.dart';
 import '../../domain/usecases/get_game_details.dart';
 import '../../data/datasources/games_remote_data_source.dart';
 import '../../data/repositories/games_repository_impl.dart';
+import '../../domain/usecases/get_game_screenshots.dart';
 
 // ============ Ligação das dependências (data -> domain) ============
 
@@ -75,4 +76,15 @@ final gameDetailsProvider =
     FutureProvider.autoDispose.family<Game, int>((ref, id) async {
   final getGameDetails = ref.watch(getGameDetailsProvider);
   return getGameDetails(id);
+});
+
+// ============ Screenshots de um jogo (2º endpoint GET) ============
+
+final getGameScreenshotsProvider = Provider<GetGameScreenshots>(
+  (ref) => GetGameScreenshots(ref.watch(gamesRepositoryProvider)),
+);
+
+final gameScreenshotsProvider =
+    FutureProvider.autoDispose.family<List<String>, int>((ref, id) async {
+  return ref.watch(getGameScreenshotsProvider)(id);
 });
