@@ -53,3 +53,8 @@ app.*.map.json
 
 # Chave da API RAWG (cada elemento cria a sua localmente, não versionar)
 lib/core/constants/api_keys.dart
+
+# Configuração do DevTools (cada elemento cria a sua localmente, não versionar)
+devtools_options.yaml
+
+
