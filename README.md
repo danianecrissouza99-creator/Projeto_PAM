@@ -1,17 +1,20 @@
-# game_dcats
+# Games DCats
 
-A new Flutter project.
+Aplicação móvel Flutter de descoberta e biblioteca de jogos. Consome a API REST RAWG e usa Firebase (Auth + Firestore), seguindo os princípios da Clean Architecture. UC: Projeto de Aplicações Móveis.
 
-## Getting Started
+## Tecnologias
+- Flutter + Dart
+- Riverpod 3 (gestão de estado)
+- http (consumo da API REST RAWG)
+- Firebase Auth + Cloud Firestore
+- mocktail (testes unitários)
 
-This project is a starting point for a Flutter application.
+## Funcionalidades
+- Registo, login e logout (Firebase Auth)
+- Pesquisa, filtro por género e ordenação de jogos (RAWG)
+- Detalhe do jogo: Metacritic, plataformas, géneros, screenshots e lojas
+- Favoritos guardados no Firestore por utilizador
 
-A few resources to get you started if this is your first Flutter project:
+## Como executar
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Instalar dependências:
