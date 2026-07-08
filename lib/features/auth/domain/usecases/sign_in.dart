@@ -1,15 +1,13 @@
-import '../../../../core/usecases/usecase.dart';
 import '../entities/app_user.dart';
 import '../repositories/auth_repository.dart';
 
 /// Caso de uso: iniciar sessão.
-class SignIn implements UseCase<AppUser, AuthParams> {
-  final AuthRepository repository;
-  SignIn(this.repository);
+class SignIn {
+  const SignIn(this._repository);
+  final AuthRepository _repository;
 
-  @override
   Future<AppUser> call(AuthParams params) {
-    return repository.signIn(email: params.email, password: params.password);
+    return _repository.signIn(email: params.email, password: params.password);
   }
 }
 

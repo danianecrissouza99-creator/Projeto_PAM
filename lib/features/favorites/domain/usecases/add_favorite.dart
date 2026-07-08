@@ -1,15 +1,13 @@
-import '../../../../core/usecases/usecase.dart';
 import '../entities/favorite_game.dart';
 import '../repositories/favorites_repository.dart';
 
 /// Caso de uso: adicionar um jogo aos favoritos.
-class AddFavorite implements UseCase<void, AddFavoriteParams> {
-  final FavoritesRepository repository;
-  AddFavorite(this.repository);
+class AddFavorite {
+  const AddFavorite(this._repository);
+  final FavoritesRepository _repository;
 
-  @override
   Future<void> call(AddFavoriteParams params) {
-    return repository.addFavorite(params.userId, params.game);
+    return _repository.addFavorite(params.userId, params.game);
   }
 }
 

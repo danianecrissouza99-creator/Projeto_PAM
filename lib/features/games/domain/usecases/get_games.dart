@@ -1,15 +1,13 @@
-import '../../../../core/usecases/usecase.dart';
 import '../entities/game.dart';
 import '../repositories/games_repository.dart';
 
 /// Caso de uso: obter / pesquisar / filtrar / ordenar jogos.
-class GetGames implements UseCase<List<Game>, GetGamesParams> {
-  final GamesRepository repository;
-  GetGames(this.repository);
+class GetGames {
+  const GetGames(this._repository);
+  final GamesRepository _repository;
 
-  @override
   Future<List<Game>> call(GetGamesParams params) {
-    return repository.getGames(
+    return _repository.getGames(
       search: params.search,
       ordering: params.ordering,
       genres: params.genres,
@@ -18,7 +16,6 @@ class GetGames implements UseCase<List<Game>, GetGamesParams> {
   }
 }
 
-/// Os dados de entrada do caso de uso (juntos num só objeto).
 class GetGamesParams {
   final String? search;
   final String? ordering;

@@ -1,14 +1,10 @@
-import '../../../../core/usecases/usecase.dart';
 import '../entities/game.dart';
 import '../repositories/games_repository.dart';
 
 /// Caso de uso: obter os detalhes de um jogo pelo seu id.
-class GetGameDetails implements UseCase<Game, int> {
-  final GamesRepository repository;
-  GetGameDetails(this.repository);
+class GetGameDetails {
+  const GetGameDetails(this._repository);
+  final GamesRepository _repository;
 
-  @override
-  Future<Game> call(int id) {
-    return repository.getGameDetails(id);
-  }
+  Future<Game> call(int id) => _repository.getGameDetails(id);
 }
