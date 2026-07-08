@@ -1,14 +1,12 @@
-import '../../../../core/usecases/usecase.dart';
 import '../repositories/favorites_repository.dart';
 
 /// Caso de uso: remover um jogo dos favoritos.
-class RemoveFavorite implements UseCase<void, RemoveFavoriteParams> {
-  final FavoritesRepository repository;
-  RemoveFavorite(this.repository);
+class RemoveFavorite {
+  const RemoveFavorite(this._repository);
+  final FavoritesRepository _repository;
 
-  @override
   Future<void> call(RemoveFavoriteParams params) {
-    return repository.removeFavorite(params.userId, params.gameId);
+    return _repository.removeFavorite(params.userId, params.gameId);
   }
 }
 

@@ -189,7 +189,7 @@ class GameDetailScreen extends ConsumerWidget {
                                 return ListView.separated(
                                   scrollDirection: Axis.horizontal,
                                   itemCount: shots.length,
-                                  separatorBuilder: (_, __) =>
+                                  separatorBuilder: (context, index) =>
                                       const SizedBox(width: 10),
                                   itemBuilder: (context, index) => ClipRRect(
                                     borderRadius: BorderRadius.circular(12),
