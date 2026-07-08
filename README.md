@@ -9,10 +9,10 @@ App móvel em Flutter de descoberta de jogos. Consome a API RAWG e usa Firebase 
 
 2. Configurar a chave da API RAWG:
    - Obter uma chave gratuita em https://rawg.io/apidocs
-   - Copiar `lib/core/constants/api_keys.example.dart` para `lib/core/constants/api_keys.dart`
-   - Substituir `A_TUA_CHAVE_AQUI` pela chave obtida
+   - Copiar lib/core/constants/api_keys.example.dart para lib/core/constants/api_keys.dart
+   - Substituir A_TUA_CHAVE_AQUI pela chave obtida
 
-3. Firebase: a configuração (`firebase_options.dart`) já está incluída.
+3. Firebase: a configuração (firebase_options.dart) já está incluída.
 
 4. Correr a app:
    flutter run
