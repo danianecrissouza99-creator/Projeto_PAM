@@ -1,17 +1,21 @@
-# game_dcats
+# Games DCats
 
-A new Flutter project.
+App móvel em Flutter de descoberta de jogos. Consome a API RAWG e usa Firebase (Auth + Firestore), com Clean Architecture.
 
-## Getting Started
+## Como executar
 
-This project is a starting point for a Flutter application.
+1. Instalar dependências:
+   flutter pub get
 
-A few resources to get you started if this is your first Flutter project:
+2. Configurar a chave da API RAWG:
+   - Obter uma chave gratuita em https://rawg.io/apidocs
+   - Copiar `lib/core/constants/api_keys.example.dart` para `lib/core/constants/api_keys.dart`
+   - Substituir `A_TUA_CHAVE_AQUI` pela chave obtida
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+3. Firebase: a configuração (`firebase_options.dart`) já está incluída.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+4. Correr a app:
+   flutter run
+
+## Testes
+   flutter test
